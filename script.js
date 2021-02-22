@@ -1,17 +1,27 @@
 'use-strict'
 //all objects array
 var allProducts = [];
+var productsName = [];
+var noOfClicksArray = [];
+var noOfShownArray = []; 
+var clicksColor = [];
+var shownColor = [];
+var noOfRounds = 25;
 
 //constructor
 function Product(name, path) {
     this.name = name.toUpperCase();
     this.path = path;
     this.noOfClicks = 0;
-    this.noOfRounds = 25;
     this.noOfShown = 0;
     this.instantView = ' ';
+    this.clicksColor = "red";
+    this.shownColor = "blue";
 
     allProducts.push(this);
+    productsName.push(this.name);
+    clicksColor.push(this.clicksColor);
+    shownColor.push(this.shownColor);
 }
 var totalClicks = 0;
 var allProducts = [];
@@ -45,6 +55,7 @@ new Product('usb', 'img/usb.gif');
 new Product('water-can', 'img/water-can.jpg');
 new Product('wine-glass', 'img/wine-glass.jpg');
 
+console.log(noOfClicksArray);
 
 function generateRandomNumber() {
     var randomNumber = Math.floor(Math.random() * allProducts.length);
@@ -89,7 +100,7 @@ function generateFinalResult() {
 }
 
 function ClickHandler() {
-    if (totalClicks < 25) {
+    if (totalClicks < 5) {
         var clickedElement = event.target;
         var clickedElementId = clickedElement.id;
         totalClicks += 1;
@@ -108,12 +119,64 @@ function ClickHandler() {
 
 
     }else{
+        createOnClickArray();
+        createShownArray()
         generateFinalResult();
-        imageSection.removeEventListener('click',ClickHandler);
+        generateChart();
+        console.table(noOfClicksArray);
+        imageSection.removeEventListener('click', ClickHandler);
 
     }
 
 }
 
+
 generateProductImage()
-console.log(allProducts);
+function generateChart() {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: productsName,
+            datasets: [{
+                label: 'No of Clicks',
+                data: noOfClicksArray,
+                backgroundColor: clicksColor,
+                borderColor: shownColor,
+                borderWidth: 1
+            },
+            {
+                label: 'No of Shown',
+                data: noOfShownArray,
+                backgroundColor: shownColor,
+                    
+                borderColor: clicksColor,
+                borderWidth: 1
+            }]
+
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+function createOnClickArray() {
+    for (let index = 0; index < allProducts.length; index++) {
+        noOfClicksArray.push(allProducts[index].noOfClicks);
+
+    }
+}
+
+function createShownArray() {
+    for (let index = 0; index < allProducts.length; index++) {
+        noOfShownArray.push(allProducts[index].noOfShown);
+
+    }
+}
+
