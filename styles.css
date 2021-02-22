@@ -1,9 +1,9 @@
-img{
+ img{
     width: 200px;
     height: 200px;
     border: 2px solid black;
     padding: 5px;
-    margin: 5px;
+    margin: 5px; */
 
 }
 h1{
@@ -32,7 +32,11 @@ ul li{
     text-decoration: none;
 }
 body{
-background-image:url(./img/bg.jpeg);
-background-repeat:no-repeat ;
-background-size: cover;
+background-color: rgb(87, 62, 110);
 }
+canvas{
+    width: 400px;
+    height: 200px;
+}
+
+
